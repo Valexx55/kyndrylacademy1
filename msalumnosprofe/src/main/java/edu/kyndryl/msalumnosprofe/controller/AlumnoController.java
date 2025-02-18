@@ -1,7 +1,11 @@
 package edu.kyndryl.msalumnosprofe.controller;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.kyndryl.msalumnosprofe.model.Alumno;
+import edu.kyndryl.msalumnosprofe.service.AlumnoService;
 
 /**
  * esta clase, recibe las peticiones http y las contesta expone el api pública
@@ -29,8 +34,12 @@ import edu.kyndryl.msalumnosprofe.model.Alumno;
 @RequestMapping("/alumno") //todo lo que sea /alumno, es para esta clase 
 public class AlumnoController {
 
-	@GetMapping("/obtener-alumno-test") // si viene una petición GET con esta url /alumno/obtener-alumno-test,
-												// ejecute este método
+	@Autowired //inyección de dependencias
+	AlumnoService alumnoService;
+	
+	
+	 // si viene una petición GET con esta url /alumno/obtener-alumno-test,
+	@GetMapping("/obtener-alumno-test")											// ejecute este método
 	public Alumno obtenerAlumnoTest() {
 		Alumno alumno = null;
 
@@ -44,6 +53,9 @@ public class AlumnoController {
 	@GetMapping
 	public ResponseEntity<Iterable<Alumno>> obtenerAlumnos() {
 		ResponseEntity<Iterable<Alumno>> httpRespuesta = null;
+		
+			Iterable<Alumno> listalumnos = this.alumnoService.consultarTodos();
+			httpRespuesta = ResponseEntity.ok(listalumnos);
 
 		return httpRespuesta;
 	}
@@ -52,6 +64,15 @@ public class AlumnoController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Alumno> obtenerAlumnoPorId(@PathVariable Long id) {
 		ResponseEntity<Alumno> httpRespuesta = null;
+		
+		Optional<Alumno> oa = this.alumnoService.consulta(id);
+		if (oa.isPresent())
+		{
+			Alumno alumnoleido = oa.get();
+			httpRespuesta = ResponseEntity.ok(alumnoleido);
+		} else {
+			httpRespuesta = ResponseEntity.noContent().build();
+		}
 
 		return httpRespuesta;
 	}
@@ -61,12 +82,18 @@ public class AlumnoController {
 	public ResponseEntity<Alumno> insertarAlumno(@RequestBody Alumno alumno) {
 		ResponseEntity<Alumno> httpRespuesta = null;
 
+			Alumno alumnonuevo = this.alumnoService.alta(alumno);
+			httpRespuesta = ResponseEntity.status(HttpStatus.CREATED).body(alumnonuevo);
+		
 		return httpRespuesta;
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> borrarAlumnoPorId(@PathVariable Long id) {
 		ResponseEntity<Void> httpRespuesta = null;
+		
+			this.alumnoService.bajaPorId(id);
+			httpRespuesta = ResponseEntity.ok().build();
 
 		return httpRespuesta;
 	}
@@ -74,6 +101,15 @@ public class AlumnoController {
 	@PutMapping("/{id}")
 	public ResponseEntity<Alumno> modificarAlumnoPorId(@PathVariable Long id, @RequestBody Alumno alumno) {
 		ResponseEntity<Alumno> httpRespuesta = null;
+		
+		Optional<Alumno> oa = this.alumnoService.modificar(alumno, id);
+		if (oa.isPresent())
+		{
+			Alumno alumnoModificado = oa.get();
+			httpRespuesta = ResponseEntity.ok(alumnoModificado);
+		} else {
+			httpRespuesta = ResponseEntity.notFound().build();
+		}
 
 		return httpRespuesta;
 	}
