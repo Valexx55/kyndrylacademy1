@@ -98,6 +98,12 @@ public class Alumno {
 	public void setCreadoEn(LocalDateTime creadoEn) {
 		this.creadoEn = creadoEn;
 	}
+
+	@Override
+	public String toString() {
+		return "Alumno [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", edad=" + edad + ", email="
+				+ email + ", creadoEn=" + creadoEn + "]";
+	}
 	
 	
 	

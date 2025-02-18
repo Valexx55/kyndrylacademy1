@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -42,6 +44,8 @@ public class AlumnoController {
 	@Autowired //inyección de dependencias
 	AlumnoService alumnoService;
 	
+	Logger log = LoggerFactory.getLogger(AlumnoController.class);
+	
 	
 	 // si viene una petición GET con esta url /alumno/obtener-alumno-test,
 	@GetMapping("/obtener-alumno-test")											// ejecute este método
@@ -50,8 +54,11 @@ public class AlumnoController {
 
 		// Long id, String nombre, String apellido, int edad, String email,
 		// LocalDateTime creadoEn
+		log.debug ("en obtenerAlumnoTest ");
 		alumno = new Alumno(1l, "Sergio", "Martínez", 55, "sergio@kyndryl.com", LocalDateTime.now());
-
+		log.debug ("sal obtenerAlumnoTest " + alumno);
+		
+		
 		return alumno;
 	}
 
