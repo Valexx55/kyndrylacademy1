@@ -1,12 +1,15 @@
 package edu.kyndryl.msalumnosprofe.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.kyndryl.msalumnosprofe.model.Alumno;
 import edu.kyndryl.msalumnosprofe.service.AlumnoService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 
 /**
  * esta clase, recibe las peticiones http y las contesta expone el api pública
@@ -81,11 +85,19 @@ public class AlumnoController {
 	
 	
 	@PostMapping
-	public ResponseEntity<Alumno> insertarAlumno(@RequestBody Alumno alumno) {
-		ResponseEntity<Alumno> httpRespuesta = null;
-
-			Alumno alumnonuevo = this.alumnoService.alta(alumno);
-			httpRespuesta = ResponseEntity.status(HttpStatus.CREATED).body(alumnonuevo);
+	public ResponseEntity<?> insertarAlumno(@Valid @RequestBody Alumno alumno, BindingResult br) {
+		ResponseEntity<?> httpRespuesta = null;
+		
+			if (br.hasErrors())
+			{
+				List<ObjectError> lista_errores = br.getAllErrors();
+				httpRespuesta = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(lista_errores);
+			} else {
+				Alumno alumnonuevo = this.alumnoService.alta(alumno);
+				httpRespuesta = ResponseEntity.status(HttpStatus.CREATED).body(alumnonuevo);
+			}
+		
+			
 		
 		return httpRespuesta;
 	}

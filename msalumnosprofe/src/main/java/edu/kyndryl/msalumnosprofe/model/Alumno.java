@@ -9,6 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 //JAVA BEAN: CLASE BÁSICA CON SUS ATRIBUTOS Y MÉTODOS DE ACCESO //RECORDS LOMBOK
 
@@ -20,9 +25,17 @@ public class Alumno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)//autoincremento en MYSQL
 	private Long id;
 	
+	@Size(min = 3, max = 20)
 	private String nombre;
+
+	@NotEmpty
 	private String apellido;
+	
+	@Max(120)
+	@Min(10)
 	private int edad;
+	
+	@Email
 	private String email;
 	
 	@Column(name = "creado_en")//para especificar un nombre distinto en la BD
