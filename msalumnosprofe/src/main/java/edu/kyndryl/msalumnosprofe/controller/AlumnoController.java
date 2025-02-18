@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.kyndryl.msalumnosprofe.model.Alumno;
 import edu.kyndryl.msalumnosprofe.service.AlumnoService;
+import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * esta clase, recibe las peticiones http y las contesta expone el api pública
@@ -51,6 +52,7 @@ public class AlumnoController {
 	}
 
 	@GetMapping
+	@Operation(description = "Esta operación recupera el listado de alumnos total en base datos")
 	public ResponseEntity<Iterable<Alumno>> obtenerAlumnos() {
 		ResponseEntity<Iterable<Alumno>> httpRespuesta = null;
 		
