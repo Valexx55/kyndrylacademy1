@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,12 @@ public class AlumnoController {
 	@Autowired //inyección de dependencias
 	AlumnoService alumnoService;
 	
+	@Value("${instancia}")//obtiene el valor de las properties
+	String nombre;
+	
+	@Autowired
+	Environment environment;
+	
 	Logger log = LoggerFactory.getLogger(AlumnoController.class);
 	
 	
@@ -69,7 +77,8 @@ public class AlumnoController {
 	@Operation(description = "Esta operación recupera el listado de alumnos total en base datos")
 	public ResponseEntity<Iterable<Alumno>> obtenerAlumnos() {
 		ResponseEntity<Iterable<Alumno>> httpRespuesta = null;
-		
+			
+			log.debug("Atentido por instacia " + this.nombre + " en el puerto " + environment.getProperty("local.server.port"));
 			Iterable<Alumno> listalumnos = this.alumnoService.consultarTodos();
 			httpRespuesta = ResponseEntity.ok(listalumnos);
 
