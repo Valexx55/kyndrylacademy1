@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.kyndryl.msalumnosprofe.model.Alumno;
@@ -136,6 +137,24 @@ public class AlumnoController {
 
 		return httpRespuesta;
 	}
+	
+	 //@GetMapping("/consultar-alumnos-rango-edad/{ini}/{max}")
+	@GetMapping("/consultar-alumnos-rango-edad")
+		public ResponseEntity<Iterable<Alumno>> obtenerAlumnoEntrreEdad(
+				@RequestParam(name = "edadmin", required = true) int ini,
+				@RequestParam(name = "edadmax", required = true) int max)
+				/*@PathVariable int ini,@PathVariable int max)*/ {
+			
+		ResponseEntity<Iterable<Alumno>> httpRespuesta = null;
+			
+			Iterable<Alumno> listalumnos = this.alumnoService.consultarAlumnosEntreEdad(ini,max);
+			
+			httpRespuesta = ResponseEntity.ok(listalumnos);
+
+		return httpRespuesta;
+		//https://www.google.com/search?client=ubuntu-sn&channel=fs&q=real+madrid
+			
+		}
 	
 
 }

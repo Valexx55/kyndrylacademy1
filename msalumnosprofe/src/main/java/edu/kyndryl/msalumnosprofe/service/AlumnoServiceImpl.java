@@ -11,14 +11,14 @@ import edu.kyndryl.msalumnosprofe.repository.AlumnoRepository;
 
 @Service
 public class AlumnoServiceImpl implements AlumnoService {
-	
+
 	@Autowired
 	AlumnoRepository alumnoRepository;
 
 	@Override
 	@Transactional
 	public Alumno alta(Alumno alumno) {
-		
+
 		return this.alumnoRepository.save(alumno);
 	}
 
@@ -45,8 +45,15 @@ public class AlumnoServiceImpl implements AlumnoService {
 	@Override
 	@Transactional(readOnly = true)
 	public Iterable<Alumno> consultarTodos() {
-		
+
 		return this.alumnoRepository.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Iterable<Alumno> consultarAlumnosEntreEdad(int edadmin, int edadmax) {
+
+		return this.alumnoRepository.findByEdadBetween(edadmin, edadmax);
 	}
 
 }

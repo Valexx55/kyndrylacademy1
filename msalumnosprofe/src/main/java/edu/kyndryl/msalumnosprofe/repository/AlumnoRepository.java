@@ -9,5 +9,8 @@ import edu.kyndryl.msalumnosprofe.model.Alumno;
  */
 
 public interface AlumnoRepository extends CrudRepository<Alumno, Long> {
+	
+	
+	 Iterable<Alumno> findByEdadBetween (int edadmin, int edadmax);
 
 }

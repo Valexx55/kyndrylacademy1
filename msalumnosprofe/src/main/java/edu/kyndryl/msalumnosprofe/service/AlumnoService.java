@@ -17,6 +17,7 @@ public interface AlumnoService {
 	Optional<Alumno> modificar (Alumno alumno, Long id);
 	Optional<Alumno> consulta (Long id);
 	Iterable<Alumno> consultarTodos ();
+	Iterable<Alumno>consultarAlumnosEntreEdad(int edadmin, int edadmax);
 	
 	
 
