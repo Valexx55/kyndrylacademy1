@@ -54,9 +54,11 @@ public class AlumnoController {
 
 		// Long id, String nombre, String apellido, int edad, String email,
 		// LocalDateTime creadoEn
+		//alumno.getEmail();//provocamos un nullpointer exception
 		log.debug ("en obtenerAlumnoTest ");
 		alumno = new Alumno(1l, "Sergio", "Martínez", 55, "sergio@kyndryl.com", LocalDateTime.now());
 		log.debug ("sal obtenerAlumnoTest " + alumno);
+		alumno.getNombre().charAt(6);
 		
 		
 		return alumno;
