@@ -6,8 +6,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import edu.kyndryl.msalumnosprofe.model.Alumno;
+import edu.kyndryl.msalumnosprofe.model.FraseChiquito;
 import edu.kyndryl.msalumnosprofe.repository.AlumnoRepository;
 
 @Service
@@ -15,6 +17,8 @@ public class AlumnoServiceImpl implements AlumnoService {
 
 	@Autowired
 	AlumnoRepository alumnoRepository;
+	
+	private static final String URL_CHIQUITO_FRASE = "https://chiquitadas.es/api/quotes/avoleorrr";
 
 	@Override
 	@Transactional
@@ -73,6 +77,19 @@ public class AlumnoServiceImpl implements AlumnoService {
 	public Iterable<Alumno> consultarAlumnosEntreEdad(int edadmin, int edadmax) {
 
 		return this.alumnoRepository.findByEdadBetween(edadmin, edadmax);
+	}
+
+	@Override
+	public Optional<FraseChiquito> obtenerFraseChiquitoAleatoria() {
+		Optional<FraseChiquito> optionalFrase = Optional.empty();
+		RestTemplate restTemplate = null;
+		FraseChiquito fraseChiquito = null;
+		
+			restTemplate = new RestTemplate();
+			fraseChiquito = restTemplate.getForObject(URL_CHIQUITO_FRASE, FraseChiquito.class);
+			optionalFrase = Optional.of(fraseChiquito);
+		
+		return optionalFrase;
 	}
 
 }

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.kyndryl.msalumnosprofe.model.Alumno;
+import edu.kyndryl.msalumnosprofe.model.FraseChiquito;
 import edu.kyndryl.msalumnosprofe.service.AlumnoService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -164,6 +165,24 @@ public class AlumnoController {
 		//https://www.google.com/search?client=ubuntu-sn&channel=fs&q=real+madrid
 			
 		}
+	
+	
+	@GetMapping("/obtener-frase-chiquito")
+	public ResponseEntity<FraseChiquito> obtenerFraseChiquito() {
+		ResponseEntity<FraseChiquito> httpRespuesta = null;
+		
+		Optional<FraseChiquito> oa = this.alumnoService.obtenerFraseChiquitoAleatoria();
+		if (oa.isPresent())
+		{
+			FraseChiquito fraseChiquito = oa.get();
+			log.debug("FRASE recuperada = " + fraseChiquito.toString());
+			httpRespuesta = ResponseEntity.ok(fraseChiquito);
+		} else {
+			httpRespuesta = ResponseEntity.noContent().build();
+		}
+
+		return httpRespuesta;
+	}
 	
 
 }

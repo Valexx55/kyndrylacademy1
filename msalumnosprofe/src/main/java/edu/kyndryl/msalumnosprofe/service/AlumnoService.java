@@ -3,6 +3,7 @@ package edu.kyndryl.msalumnosprofe.service;
 import java.util.Optional;
 
 import edu.kyndryl.msalumnosprofe.model.Alumno;
+import edu.kyndryl.msalumnosprofe.model.FraseChiquito;
 
 /**
  * aquí se describe la funcionalidad de negocio
@@ -18,6 +19,7 @@ public interface AlumnoService {
 	Optional<Alumno> consulta (Long id);
 	Iterable<Alumno> consultarTodos ();
 	Iterable<Alumno>consultarAlumnosEntreEdad(int edadmin, int edadmax);
+	Optional<FraseChiquito> obtenerFraseChiquitoAleatoria();
 	
 	
 
