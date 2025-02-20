@@ -68,7 +68,7 @@ public class AlumnoController {
 		log.debug ("en obtenerAlumnoTest ");
 		alumno = new Alumno(1l, "Sergio", "Martínez", 55, "sergio@kyndryl.com", LocalDateTime.now());
 		log.debug ("sal obtenerAlumnoTest " + alumno);
-		alumno.getNombre().charAt(6);
+		//alumno.getNombre().charAt(6);
 		
 		
 		return alumno;

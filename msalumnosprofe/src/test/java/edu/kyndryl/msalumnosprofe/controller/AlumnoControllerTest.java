@@ -1,7 +1,9 @@
 package edu.kyndryl.msalumnosprofe.controller;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -13,6 +15,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 
 import edu.kyndryl.msalumnosprofe.model.Alumno;
 
@@ -43,15 +49,18 @@ class AlumnoControllerTest {
 
 	@Test
 	final void testObtenerAlumnoTest() {
-		//fail("Not yet implemented"); // TODO
-	 	//Alumno alumnoTest =  template.getForObject("http://localhost:"+puerto+"/alumno/obtener-alumno-test", String.class);
-	 	String alumnoTest =  template.getForObject("http://localhost:"+puerto+"/alumno/obtener-alumno-test", String.class);
-	 	assertThat(alumnoTest.contains("nombre"));
+		
+	 	Alumno alumnoTest =  template.getForObject("http://localhost:"+puerto+"/alumno/obtener-alumno-test", Alumno.class);
+	 	assertEquals(alumnoTest.getNombre(), "Sergio");
 	}
 
 	@Test
-	final void testObtenerAlumnoPorId() {
-		fail("Not yet implemented"); // TODO
+	final void testObtenerAlumnoPorId() throws URISyntaxException {
+		 //MyRequest body = ...
+		 RequestEntity<Void> request = RequestEntity.get(new URI("http://localhost:"+puerto+"/alumno/2")).build();
+		 ResponseEntity<Alumno> response = template.exchange(request, Alumno.class);
+		 assertEquals(HttpStatus.OK, response.getStatusCode());
+		 assertEquals(2l, response.getBody().getId());
 	}
 
 }
