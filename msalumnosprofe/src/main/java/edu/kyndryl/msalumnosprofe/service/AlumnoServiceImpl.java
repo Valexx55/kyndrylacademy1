@@ -2,6 +2,7 @@ package edu.kyndryl.msalumnosprofe.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +31,28 @@ public class AlumnoServiceImpl implements AlumnoService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = false)
 	public Optional<Alumno> modificar(Alumno alumno, Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		
+		Optional<Alumno> oa= Optional.empty();
+		
+		//1 LEER POR ID EL REGISTRO QUE QUIERO MODIFICAR
+			oa = this.alumnoRepository.findById(id);
+			if (oa.isPresent())
+			{
+				Alumno alumnoLeido = oa.get();//EL OBJETO ESTÁ EN PERSISTENT - si modifico un atributo, estoy modificando la columna asociada de la bd
+				alumnoLeido.setApellido(alumno.getApellido());
+				alumnoLeido.setNombre(alumno.getNombre());
+				alumnoLeido.setEdad(alumno.getEdad());
+				alumnoLeido.setEmail(alumno.getEmail());
+				//alumno.getNombre().charAt(10);
+				BeanUtils.copyProperties(alumno, alumnoLeido, "id", "creadoEn");
+				//this.alumnoRepository.save(alumnoLeido);
+				
+			}
+		//1.2 MODIFICAR LOS ATRIBUTOS
+		//2 SALVAR LOS CAMBIOS
+		return oa;
 	}
 
 	@Override
