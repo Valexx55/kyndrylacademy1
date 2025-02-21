@@ -1,4 +1,4 @@
-package edu.kyndryl.msalumnosprofe.model;
+package edu.kyndryl.mscomunprofe.entity;
 
 import java.time.LocalDateTime;
 

@@ -2,8 +2,8 @@ package edu.kyndryl.msalumnosprofe.service;
 
 import java.util.Optional;
 
-import edu.kyndryl.msalumnosprofe.model.Alumno;
 import edu.kyndryl.msalumnosprofe.model.FraseChiquito;
+import edu.kyndryl.mscomunprofe.entity.Alumno;
 
 /**
  * aquí se describe la funcionalidad de negocio

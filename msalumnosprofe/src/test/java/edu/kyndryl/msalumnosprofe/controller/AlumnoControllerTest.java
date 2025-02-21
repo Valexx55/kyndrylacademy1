@@ -26,7 +26,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 
-import edu.kyndryl.msalumnosprofe.model.Alumno;
+import edu.kyndryl.mscomunprofe.entity.Alumno;
 
 @SpringBootTest(webEnvironment =  WebEnvironment.RANDOM_PORT)
 class AlumnoControllerTest {

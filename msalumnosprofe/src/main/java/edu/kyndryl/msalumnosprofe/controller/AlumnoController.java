@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.kyndryl.msalumnosprofe.model.Alumno;
 import edu.kyndryl.msalumnosprofe.model.FraseChiquito;
 import edu.kyndryl.msalumnosprofe.service.AlumnoService;
+import edu.kyndryl.mscomunprofe.entity.Alumno;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 

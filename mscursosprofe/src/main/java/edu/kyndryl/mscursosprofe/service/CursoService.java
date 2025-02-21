@@ -2,7 +2,7 @@ package edu.kyndryl.mscursosprofe.service;
 
 import java.util.Optional;
 
-import edu.kyndryl.mscursosprofe.model.Curso;
+import edu.kyndryl.mscomunprofe.entity.Curso;
 
 public interface CursoService {
 	

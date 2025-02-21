@@ -15,8 +15,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import edu.kyndryl.msalumnosprofe.model.Alumno;
 import edu.kyndryl.msalumnosprofe.service.AlumnoService;
+import edu.kyndryl.mscomunprofe.entity.Alumno;
 
 
 @WebMvcTest(AlumnoController.class)//levantar el contexto parcialmente de las clases indicadas

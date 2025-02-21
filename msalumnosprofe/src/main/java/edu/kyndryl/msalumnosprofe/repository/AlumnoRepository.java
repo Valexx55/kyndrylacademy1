@@ -2,7 +2,7 @@ package edu.kyndryl.msalumnosprofe.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import edu.kyndryl.msalumnosprofe.model.Alumno;
+import edu.kyndryl.mscomunprofe.entity.Alumno;
 
 /**
  * aquí accederemos a la base de datos

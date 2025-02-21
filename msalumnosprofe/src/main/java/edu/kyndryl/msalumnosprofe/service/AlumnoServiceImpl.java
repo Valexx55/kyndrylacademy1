@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import edu.kyndryl.msalumnosprofe.model.Alumno;
 import edu.kyndryl.msalumnosprofe.model.FraseChiquito;
 import edu.kyndryl.msalumnosprofe.repository.AlumnoRepository;
+import edu.kyndryl.mscomunprofe.entity.Alumno;
 
 @Service
 public class AlumnoServiceImpl implements AlumnoService {
