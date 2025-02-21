@@ -2,6 +2,8 @@ package edu.kyndryl.msalumnosprofe.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,6 +38,7 @@ public class Alumno {
 	private int edad;
 	
 	@Email
+	//@JsonIgnore //con esta anotación evitamos que la propiedad se serialice a JSON
 	private String email;
 	
 	@Column(name = "creado_en")//para especificar un nombre distinto en la BD
