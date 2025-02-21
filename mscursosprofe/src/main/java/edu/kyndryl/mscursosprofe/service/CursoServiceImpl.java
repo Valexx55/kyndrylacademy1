@@ -1,11 +1,13 @@
 package edu.kyndryl.mscursosprofe.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.kyndryl.mscomunprofe.entity.Alumno;
 import edu.kyndryl.mscomunprofe.entity.Curso;
 import edu.kyndryl.mscursosprofe.repository.CursoRepository;
 
@@ -51,6 +53,19 @@ public class CursoServiceImpl implements CursoService {
 			}
 		
 		return oc;
+	}
+
+	//TODO TAREA PARA EL LUNES, PENDIENTE DE IMPLEMENTAR ESTOS DOS MÉTODOS
+	@Override
+	public Optional<Curso> matricularAlumnos(List<Alumno> lAlumnos, Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Curso> desmatricularAlumno(Alumno alumno, Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
 	}
 
 }

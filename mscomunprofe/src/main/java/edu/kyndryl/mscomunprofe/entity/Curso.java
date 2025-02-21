@@ -23,6 +23,7 @@ public class Curso {
 	@OneToMany(fetch = FetchType.LAZY)//es que cuando lea un curso, no cargue los alumnos, hasta que no se necesiten
 	List<Alumno> alumnos;
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -37,6 +38,24 @@ public class Curso {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	
+	public void addAlumno (Alumno alumno)
+	{
+		this.alumnos.add(alumno);
+	}
+	
+	public void borrarAlumno (Alumno alumno)
+	{
+		this.alumnos.remove(alumno);
+	}
+
+	public List<Alumno> getAlumnos() {
+		return alumnos;
+	}
+
+	public void setAlumnos(List<Alumno> alumnos) {
+		this.alumnos = alumnos;
 	}
 
 	public Curso(Long id, String nombre) {

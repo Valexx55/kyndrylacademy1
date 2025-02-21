@@ -1,6 +1,7 @@
 package edu.kyndryl.mscomunprofe.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -100,6 +101,23 @@ public class Alumno {
 	}
 	public void setCreadoEn(LocalDateTime creadoEn) {
 		this.creadoEn = creadoEn;
+	}
+	
+	@Override
+	public boolean equals(Object obj) //sobreescribimos equals porque al borrar un ALumno de la lista del curso, se usará 
+	{
+		boolean iguales = false;
+		
+			if (this ==obj)
+			{
+				iguales = true;
+			} else if (obj instanceof Alumno a) {
+				
+				iguales =  Objects.equals(this.id, a.id);//para mi, dos alumnos son iguales, si tienen el mismo id
+			}
+		
+		
+		return iguales;
 	}
 
 	@Override
