@@ -24,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.kyndryl.msalumnosprofe.client.ClienteFeignCurso;
 import edu.kyndryl.msalumnosprofe.model.FraseChiquito;
 import edu.kyndryl.msalumnosprofe.service.AlumnoService;
 import edu.kyndryl.mscomunprofe.entity.Alumno;
+import edu.kyndryl.mscomunprofe.entity.Curso;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
@@ -53,6 +55,9 @@ public class AlumnoController {
 	
 	@Autowired
 	Environment environment;
+	
+	@Autowired
+	ClienteFeignCurso clienteFeignCurso;
 	
 	Logger log = LoggerFactory.getLogger(AlumnoController.class);
 	
@@ -183,6 +188,26 @@ public class AlumnoController {
 
 		return httpRespuesta;
 	}
+	
+	
+	@GetMapping("/obtener-curso-alumno-via-feign/{idalumno}")
+	public ResponseEntity<Curso> obtenerCursoAlumno (@PathVariable Long idalumno)
+	{
+		ResponseEntity<Curso> responseEntity = null;
+		Optional<Curso> oc = null;
+		
+			 oc = this.clienteFeignCurso.obtenerCursoAlumnoViaFeign(idalumno);
+			 if (oc.isPresent())
+			 {
+				 Curso cursoAlumno = oc.get();
+				 responseEntity = ResponseEntity.ok(cursoAlumno);
+			 } else {
+				 responseEntity = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+			 }
+		
+		return responseEntity;
+	}
+	
 	
 
 }

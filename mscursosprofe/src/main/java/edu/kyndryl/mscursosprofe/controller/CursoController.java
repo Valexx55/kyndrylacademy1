@@ -161,7 +161,7 @@ public class CursoController {
 				 Curso cursoAlumno = oc.get();
 				 responseEntity = ResponseEntity.ok(cursoAlumno);
 			 } else {
-				 responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+				 responseEntity = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 			 }
 		
 		return responseEntity;
