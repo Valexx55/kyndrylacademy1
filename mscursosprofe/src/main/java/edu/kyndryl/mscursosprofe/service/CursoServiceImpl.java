@@ -82,5 +82,10 @@ public class CursoServiceImpl implements CursoService {
 
 		return oc;
 	}
+	
+	@Override
+	public Optional<Curso> obtenerCursoAlumno (Long idalumno) {
+		return this.cursoRepository.obtenerCursoAlumno(idalumno);
+	}
 
 }

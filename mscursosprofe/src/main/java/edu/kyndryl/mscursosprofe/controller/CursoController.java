@@ -149,6 +149,27 @@ public class CursoController {
 	}
 	
 	
+	@GetMapping("/obtener-curso-alumno/{idalumno}")
+	public ResponseEntity<Curso> obtenerCursoAlumno (@PathVariable Long idalumno)
+	{
+		ResponseEntity<Curso> responseEntity = null;
+		Optional<Curso> oc = null;
+		
+			 oc = this.cursoService.obtenerCursoAlumno(idalumno);
+			 if (oc.isPresent())
+			 {
+				 Curso cursoAlumno = oc.get();
+				 responseEntity = ResponseEntity.ok(cursoAlumno);
+			 } else {
+				 responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			 }
+		
+		return responseEntity;
+	}
+	
+	
+	
+	
 	
 
 }

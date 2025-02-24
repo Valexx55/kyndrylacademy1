@@ -21,5 +21,7 @@ public interface CursoService {
 	public Optional<Curso> matricularAlumnos (List<Alumno> lAlumnos, Long id);
 	
 	public Optional<Curso> desmatricularAlumno (Alumno alumno, Long id);
+	
+	public Optional<Curso> obtenerCursoAlumno (Long idalumno);
 
 }
