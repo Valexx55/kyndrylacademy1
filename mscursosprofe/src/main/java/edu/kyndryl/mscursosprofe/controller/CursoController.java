@@ -1,5 +1,6 @@
 package edu.kyndryl.mscursosprofe.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.kyndryl.mscomunprofe.entity.Alumno;
 import edu.kyndryl.mscomunprofe.entity.Curso;
 import edu.kyndryl.mscursosprofe.service.CursoService;
 
@@ -102,6 +104,45 @@ public class CursoController {
 			cursonuevo = this.cursoService.save(curso);
 			responseEntity = ResponseEntity.status(HttpStatus.CREATED).body(cursonuevo);
 			
+		
+		return responseEntity;
+		
+	}
+	
+	
+	@PutMapping("/asignar-alumnos/{idcurso}")
+	public ResponseEntity<Curso> asignarAlumnosCurso (@RequestBody List<Alumno> alumnos, @PathVariable Long idcurso)
+	{
+		ResponseEntity<Curso> responseEntity = null;
+		Optional<Curso> oc = null;
+		
+			 oc = this.cursoService.matricularAlumnos(alumnos, idcurso);
+			 if (oc.isPresent())
+			 {
+				 Curso cursoModificado = oc.get();
+				 responseEntity = ResponseEntity.ok(cursoModificado);
+			 } else {
+				 responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			 }
+		
+		return responseEntity;
+		
+	}
+	
+	@PutMapping("/borrar-alumno/{idcurso}")
+	public ResponseEntity<Curso> borrarAlumnoCurso (@RequestBody Alumno alumno, @PathVariable Long idcurso)
+	{
+		ResponseEntity<Curso> responseEntity = null;
+		Optional<Curso> oc = null;
+		
+			 oc = this.cursoService.desmatricularAlumno(alumno, idcurso);
+			 if (oc.isPresent())
+			 {
+				 Curso cursoModificado = oc.get();
+				 responseEntity = ResponseEntity.ok(cursoModificado);
+			 } else {
+				 responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			 }
 		
 		return responseEntity;
 		

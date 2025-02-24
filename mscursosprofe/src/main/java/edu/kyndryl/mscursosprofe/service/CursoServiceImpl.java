@@ -12,27 +12,28 @@ import edu.kyndryl.mscomunprofe.entity.Curso;
 import edu.kyndryl.mscursosprofe.repository.CursoRepository;
 
 @Service
-@Transactional //si definimos arriba esta anotación, aplica la transaccionalidad a todos los métodos de la clase service
+@Transactional // si definimos arriba esta anotación, aplica la transaccionalidad a todos los
+				// métodos de la clase service
 public class CursoServiceImpl implements CursoService {
-	
+
 	@Autowired
 	CursoRepository cursoRepository;
 
 	@Override
 	public Iterable<Curso> findAll() {
-		
+
 		return this.cursoRepository.findAll();
 	}
 
 	@Override
 	public Optional<Curso> findById(Long id) {
-		
+
 		return this.cursoRepository.findById(id);
 	}
 
 	@Override
 	public Curso save(Curso curso) {
-		
+
 		return this.cursoRepository.save(curso);
 	}
 
@@ -43,29 +44,43 @@ public class CursoServiceImpl implements CursoService {
 
 	@Override
 	public Optional<Curso> update(Curso curso, Long id) {
-		Optional<Curso>  oc = Optional.empty();
-		
-			oc = this.cursoRepository.findById(id);
-			if (oc.isPresent())
-			{
-				Curso cursoleido = oc.get();
-				cursoleido.setNombre(curso.getNombre());
-			}
-		
+		Optional<Curso> oc = Optional.empty();
+
+		oc = this.cursoRepository.findById(id);
+		if (oc.isPresent()) {
+			Curso cursoleido = oc.get();
+			cursoleido.setNombre(curso.getNombre());
+		}
+
 		return oc;
 	}
 
-	//TODO TAREA PARA EL LUNES, PENDIENTE DE IMPLEMENTAR ESTOS DOS MÉTODOS
 	@Override
 	public Optional<Curso> matricularAlumnos(List<Alumno> lAlumnos, Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		Optional<Curso> oc = Optional.empty();
+
+		oc = this.cursoRepository.findById(id);
+		if (oc.isPresent()) {
+			Curso cursoLeido = oc.get();
+			lAlumnos.forEach(alumno -> cursoLeido.addAlumno(alumno));
+			oc = Optional.of(cursoLeido);
+		}
+
+		return oc;
 	}
 
 	@Override
 	public Optional<Curso> desmatricularAlumno(Alumno alumno, Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		Optional<Curso> oc = Optional.empty();
+
+		oc = this.cursoRepository.findById(id);
+		if (oc.isPresent()) {
+			Curso cursoLeido = oc.get();
+			cursoLeido.borrarAlumno(alumno);
+			oc = Optional.of(cursoLeido);
+		}
+
+		return oc;
 	}
 
 }
