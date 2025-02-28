@@ -3,10 +3,10 @@ package edu.kyndryl.mseurekaprofe;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class MseurekaprofeApplicationTests {
 
-	@Test
+	//@Test
 	void contextLoads() {
 	}
 

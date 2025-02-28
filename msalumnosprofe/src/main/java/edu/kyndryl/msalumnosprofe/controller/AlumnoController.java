@@ -1,5 +1,6 @@
 package edu.kyndryl.msalumnosprofe.controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -9,11 +10,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MimeType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +27,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.kyndryl.msalumnosprofe.client.ClienteFeignCurso;
 import edu.kyndryl.msalumnosprofe.model.FraseChiquito;
@@ -42,22 +50,29 @@ import jakarta.validation.Valid;
  * 
  * REST
  */
-
+//@CrossOrigin(origins = {"http://marca.com"}, methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
+//@CrossOrigin(origins = {"*"}, methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController // esta clase, recibe y contesta HTTPS con Formato JSON
 @RequestMapping("/alumno") //todo lo que sea /alumno, es para esta clase 
 public class AlumnoController {
 
-	@Autowired //inyección de dependencias
+	//@Autowired //inyección de dependencias
 	AlumnoService alumnoService;
 	
 	@Value("${instancia}")//obtiene el valor de las properties
 	String nombre;
 	
-	@Autowired
+	//@Autowired
 	Environment environment;
 	
-	@Autowired
+	//@Autowired
 	ClienteFeignCurso clienteFeignCurso;
+	
+	public AlumnoController (ClienteFeignCurso clienteFeignCurso, Environment environment, AlumnoService alumnoService) {
+		this.alumnoService = alumnoService;
+		this.clienteFeignCurso = clienteFeignCurso;
+		this.environment = environment;
+	}
 	
 	Logger log = LoggerFactory.getLogger(AlumnoController.class);
 	
@@ -126,6 +141,63 @@ public class AlumnoController {
 		
 		return httpRespuesta;
 	}
+	
+	
+	@PostMapping("/crear-con-foto")
+	public ResponseEntity<?> insertarAlumnoConFoto(@Valid Alumno alumno, BindingResult br, MultipartFile archivo) throws IOException {
+		ResponseEntity<?> httpRespuesta = null;
+		
+			if (br.hasErrors())
+			{
+				List<ObjectError> lista_errores = br.getAllErrors();
+				httpRespuesta = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(lista_errores);
+			} else {
+				if (!archivo.isEmpty())
+				{
+					//viene con foto
+					try {
+						alumno.setFoto(archivo.getBytes());
+					} catch (IOException e) {
+											
+						log.error("Error al acceder a la foto", e);
+						throw e;
+					}
+					Alumno alumnonuevo = this.alumnoService.alta(alumno);
+					httpRespuesta = ResponseEntity.status(HttpStatus.CREATED).body(alumnonuevo);
+				}
+				
+				
+			}
+		
+			
+		
+		return httpRespuesta;
+	}
+	
+	
+	@GetMapping("/obtener-foto/{id}")
+	public ResponseEntity<?> obtenerFotoAlumnoPorId(@PathVariable Long id) {
+		ResponseEntity<?> httpRespuesta = null;
+		Resource imagen = null;
+		
+		Optional<Alumno> oa = this.alumnoService.consulta(id);
+		if (oa.isPresent()&&oa.get().getFoto()!=null)
+		{
+			Alumno alumnoleido = oa.get();
+			imagen = new ByteArrayResource(alumnoleido.getFoto());
+			httpRespuesta = ResponseEntity.status(200).contentType(MediaType.IMAGE_JPEG).body(imagen);
+		} else {
+			httpRespuesta = ResponseEntity.noContent().build();
+		}
+
+		return httpRespuesta;
+	}
+	
+	
+	
+	
+	
+	
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> borrarAlumnoPorId(@PathVariable Long id) {

@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -45,10 +46,29 @@ public class Alumno {
 	@Column(name = "creado_en")//para especificar un nombre distinto en la BD
 	private LocalDateTime creadoEn;
 	
+	@Lob
+	@JsonIgnore //evitamos que se serialice en la respuesta
+	private byte[] foto;
 	
 	public Alumno() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	//este atributo hashcode nos indica si el registro
+	//tiene foto asociada o no
+	public Integer getFotoHashCode ()
+	{
+		Integer codeDev = null;
+		
+		if (this.foto != null)
+		{
+			codeDev = this.foto.hashCode();
+		}
+			
+		
+		return codeDev;
+	}
+	
 	
 	public Alumno(Long id, String nombre, String apellido, int edad, String email, LocalDateTime creadoEn) {
 		super();
@@ -66,6 +86,20 @@ public class Alumno {
 		this.creadoEn = LocalDateTime.now();//obtenemos la fecha actual
 	}
 	
+	
+	
+	public byte[] getFoto() {
+		return foto;
+	}
+
+
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
